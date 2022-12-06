@@ -230,10 +230,13 @@ export class NewRecipe extends Component<any, myState> {
                                 "RecipeName",
                                 this.state.RecipeName
                             );
-                            fetch("http://localhost:8080/uploadFile", {
-                                method: "POST",
-                                body: formData,
-                            });
+                            fetch(
+                                "https://recipe-guru.herokuapp.com/uploadFile",
+                                {
+                                    method: "POST",
+                                    body: formData,
+                                }
+                            );
                         }}
                     >
                         Submit
