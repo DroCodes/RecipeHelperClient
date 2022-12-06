@@ -32,12 +32,12 @@ const RecipeInfo = (props: { data: any; img: string }) => {
         <div>
             <h3>Instructions</h3>
             <ol>
-                {/* {recipe.RecipeInstructions.map((item: any, index: any) =>
+                {recipe.RecipeInstructions.map((item: any, index: any) =>
                     item.Instruction !== "" ? (
                         <li key={index}>{item.Instruction}</li>
                     ) : null
-                )} */}
-                <li>{recipe.RecipeInstructions}</li>
+                )}
+                {/* <li>{recipe.RecipeInstructions}</li> */}
             </ol>
         </div>
     );

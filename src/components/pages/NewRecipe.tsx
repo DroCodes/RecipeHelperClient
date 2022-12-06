@@ -4,7 +4,7 @@ type myState = {
     RecipeName: string;
     RecipeDescription: string;
     RecipeIngredients: { IngredientName: string; IngredientQuantity: string }[];
-    RecipeInstructions: string;
+    RecipeInstructions: string[];
     RecipeDifficulty: string;
     RecipeCookTime: string;
     RecipeServingSize: string;
@@ -17,7 +17,7 @@ export class NewRecipe extends Component<any, myState> {
             RecipeName: "",
             RecipeDescription: "",
             RecipeIngredients: [{ IngredientName: "", IngredientQuantity: "" }],
-            RecipeInstructions: "",
+            RecipeInstructions: [],
             RecipeDifficulty: "",
             RecipeCookTime: "",
             RecipeServingSize: "",
@@ -27,6 +27,8 @@ export class NewRecipe extends Component<any, myState> {
     ingredientArray = [{ IngredientName: "", IngredientQuantity: "" }];
     ingredientName = "";
     ingredientquantity = "";
+    instructionArray = [""];
+    instructions = "";
 
     handleIngredientNameChange = (event: any) => {
         this.ingredientName = event.target.value;
@@ -46,6 +48,23 @@ export class NewRecipe extends Component<any, myState> {
         this.setState({
             RecipeIngredients: this.ingredientArray,
         });
+    };
+
+    handleInstructionChange = (event: any) => {
+        this.instructions = event.target.value;
+
+        console.log(this.instructions);
+    };
+
+    onInstructionSubmit = (event: any) => {
+        event.preventDefault();
+        this.instructionArray.push(this.instructions);
+
+        this.setState({
+            RecipeInstructions: this.instructionArray,
+        });
+
+        console.log(this.state.RecipeInstructions);
     };
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -157,9 +176,15 @@ export class NewRecipe extends Component<any, myState> {
                         type="text"
                         name="RecipeInstructions"
                         id="RecipeInstructions"
-                        onChange={this.handleChange}
-                        value={this.state.RecipeInstructions}
+                        onChange={this.handleInstructionChange}
+                        // value={this.state.RecipeInstructions}
                     />
+                    <button
+                        className="btn btn-dark"
+                        onClick={(event) => this.onInstructionSubmit(event)}
+                    >
+                        Add Instructions
+                    </button>
                     <label htmlFor="RecipeDifficulty">Recipe Difficulty</label>
                     <input
                         type="text"
