@@ -103,7 +103,7 @@ export class NewRecipe extends Component<any, myState> {
             RecipeServingSize,
         };
 
-        fetch("http://localhost:8080/recipes", {
+        fetch("https://recipe-guru.herokuapp.com/recipes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
