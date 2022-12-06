@@ -7,7 +7,8 @@ import RecipeInfo from "./components/pages/RecipeInfo";
 import "./App.css";
 
 function App() {
-    const apiUrl = "http://localhost:8080/recipes";
+    // const apiUrl = "http://localhost:8080/recipes";
+    const apiUrl = "https://recipe-guru.herokuapp.com/recipes";
 
     const [recipes, setRecipes]: any = useState([]);
     const [recipeData, setRecipeData] = useState([]);
