@@ -1,0 +1,15 @@
+.custom-card {
+  padding: 1rem;
+  border: grey 1px solid;
+  margin: 0.7rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#search {
+  border: 2px solid #ccc;
+  border-radius: 25px;
+}
+
+#search::placeholder {
+  padding-left: 5px;
+}
