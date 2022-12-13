@@ -9,6 +9,8 @@ type myState = {
     RecipeCookTime: string;
     RecipeServingSize: string;
     RecipeImage: any;
+    apiURL: string;
+    imgURL: string;
 };
 export class NewRecipe extends Component<any, myState> {
     constructor(props: {}) {
@@ -21,12 +23,14 @@ export class NewRecipe extends Component<any, myState> {
             RecipeDifficulty: "",
             RecipeCookTime: "",
             RecipeServingSize: "",
-            RecipeImage: null,
+            RecipeImage: null || undefined,
+            apiURL: this.props.api,
+            imgURL: this.props.img,
         };
     }
     ingredientArray = [{ IngredientName: "", IngredientQuantity: "" }];
     ingredientName = "";
-    ingredientquantity = "";
+    ingredientQuantity = "";
     instructionArray = [""];
     instructions = "";
 
@@ -35,14 +39,18 @@ export class NewRecipe extends Component<any, myState> {
     };
 
     handleIngredientQuantityChange = (event: any) => {
-        this.ingredientquantity = event.target.value;
+        this.ingredientQuantity = event.target.value;
     };
 
     onIngredientSubmit = (event: any) => {
         event.preventDefault();
+
+        if (this.ingredientName === "" || this.ingredientQuantity === "") {
+            return alert("Please enter an ingredient name and quantity");
+        }
         this.ingredientArray.push({
             IngredientName: this.ingredientName,
-            IngredientQuantity: this.ingredientquantity,
+            IngredientQuantity: this.ingredientQuantity,
         });
 
         this.setState({
@@ -83,6 +91,27 @@ export class NewRecipe extends Component<any, myState> {
 
     onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        if (this.state.RecipeImage === null) {
+            return alert("Please upload an image");
+        } else if (this.state.RecipeName === "") {
+            return alert("Please enter a recipe name");
+        } else if (this.state.RecipeDescription === "") {
+            return alert("Please enter a recipe description");
+        } else if (this.state.RecipeIngredients.length === 1) {
+            return alert("Please enter at least one ingredient");
+        } else if (this.state.RecipeInstructions.length === 1) {
+            return alert("Please enter at least one instruction");
+        } else if (this.state.RecipeDifficulty === "") {
+            return alert("Please enter a recipe difficulty");
+        } else if (this.state.RecipeCookTime === "") {
+            return alert("Please enter a recipe cook time");
+        } else if (this.state.RecipeServingSize === "") {
+            return alert("Please enter a recipe serving size");
+        } else if (this.state.RecipeImage === null) {
+            return alert("Please upload an image");
+        }
+
         const {
             RecipeName,
             RecipeDescription,
@@ -103,7 +132,18 @@ export class NewRecipe extends Component<any, myState> {
             RecipeServingSize,
         };
 
-        fetch("https://recipe-guru.herokuapp.com/recipes", {
+        this.setState({
+            RecipeName: "",
+            RecipeDescription: "",
+            RecipeIngredients: [{ IngredientName: "", IngredientQuantity: "" }],
+            RecipeInstructions: [],
+            RecipeDifficulty: "",
+            RecipeCookTime: "",
+            RecipeServingSize: "",
+            RecipeImage: undefined,
+        });
+
+        fetch(this.state.apiURL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -121,105 +161,161 @@ export class NewRecipe extends Component<any, myState> {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>New Recipe</h1>
                 <form
                     onSubmit={this.onSubmit}
                     action="/uploadfile"
                     method="POST"
                     encType="multipart/form-data"
+                    className="container form"
                 >
-                    <label htmlFor="RecipeName">Recipe Name</label>
-                    <input
-                        type="text"
-                        name="RecipeName"
-                        id="RecipeName"
-                        onChange={this.handleChange}
-                        value={this.state.RecipeName}
-                    />
-                    <label htmlFor="RecipeDescription">
-                        Recipe Description
-                    </label>
-                    <input
-                        type="text"
-                        name="RecipeDescription"
-                        id="RecipeDescription"
-                        onChange={this.handleChange}
-                        value={this.state.RecipeDescription}
-                    />
-                    <label htmlFor="IngredientName">Recipe Ingredients</label>
-                    <input
-                        type="text"
-                        name="IngredientName"
-                        id="IngredientName"
-                        onChange={this.handleIngredientNameChange}
-                        // value={this.state.RecipeIngredients}
-                    />
-                    <label htmlFor="IngredientQuantity">Recipe Quantity</label>
-                    <input
-                        type="text"
-                        name="IngredientQuantity"
-                        id="IngredientQuantity"
-                        onChange={this.handleIngredientQuantityChange}
-                        // value={this.state.RecipeIngredients}
-                    />
+                    <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <label
+                            htmlFor="RecipeName"
+                            className="form-control d-none"
+                        >
+                            Recipe Name
+                        </label>
+                        <input
+                            type="text"
+                            name="RecipeName"
+                            id="RecipeName"
+                            className="form-control"
+                            placeholder="Recipe Name"
+                            onChange={this.handleChange}
+                            value={this.state.RecipeName}
+                        />
+                    </div>
+                    <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <label htmlFor="RecipeDescription" className="d-none">
+                            Recipe Description
+                        </label>
+                        <input
+                            type="text"
+                            name="RecipeDescription"
+                            id="RecipeDescription"
+                            className="form-control"
+                            placeholder="Recipe Description"
+                            onChange={this.handleChange}
+                            value={this.state.RecipeDescription}
+                        />
+                    </div>
+                    <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <label htmlFor="IngredientName" className="d-none">
+                            Recipe Ingredients
+                        </label>
+                        <div className="d-flex">
+                            <input
+                                type="text"
+                                name="IngredientName"
+                                id="IngredientName"
+                                className="form-control mx-1"
+                                placeholder="Ingredient Name"
+                                value={this.ingredientName}
+                                onChange={this.handleIngredientNameChange}
+                            />
+                            <label
+                                htmlFor="IngredientQuantity"
+                                className="d-none"
+                            >
+                                Recipe Quantity
+                            </label>
+                            <input
+                                type="text"
+                                name="IngredientQuantity"
+                                id="IngredientQuantity"
+                                className="form-control mx-1"
+                                placeholder="Ingredient Quantity"
+                                value={this.ingredientQuantity}
+                                onChange={this.handleIngredientQuantityChange}
+                            />
+                        </div>
+                        <button
+                            className="btn btn-dark m-1"
+                            onClick={(event) => this.onIngredientSubmit(event)}
+                        >
+                            Add Ingredient
+                        </button>
+                    </div>
+                    <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <label htmlFor="RecipeInstructions" className="d-none">
+                            Recipe Instructions
+                        </label>
+                        <input
+                            type="text"
+                            name="RecipeInstructions"
+                            id="RecipeInstructions"
+                            className="form-control"
+                            placeholder="Recipe Instructions"
+                            value={this.instructions}
+                            onChange={this.handleInstructionChange}
+                        />
+                        <button
+                            className="btn btn-dark m-1"
+                            onClick={(event) => this.onInstructionSubmit(event)}
+                        >
+                            Add Instructions
+                        </button>
+                    </div>
+                    <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <label htmlFor="RecipeDifficulty" className="d-none">
+                            Recipe Difficulty
+                        </label>
+                        <input
+                            type="text"
+                            name="RecipeDifficulty"
+                            id="RecipeDifficulty"
+                            className="form-control"
+                            placeholder="Recipe Difficulty"
+                            onChange={this.handleChange}
+                            value={this.state.RecipeDifficulty}
+                        />
+                    </div>
+                    <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <label htmlFor="RecipeCookTime" className="d-none">
+                            Recipe Cook Time
+                        </label>
+                        <input
+                            type="text"
+                            name="RecipeCookTime"
+                            id="RecipeCookTime"
+                            className="form-control"
+                            placeholder="Recipe Cook Time"
+                            onChange={this.handleChange}
+                            value={this.state.RecipeCookTime}
+                        />
+                    </div>
+                    <div className="form-control col-md-6 m-auto my1 border border-0">
+                        <label htmlFor="RecipeServingSize" className="d-none">
+                            Recipe Serving Size
+                        </label>
+                        <input
+                            type="text"
+                            name="RecipeServingSize"
+                            id="RecipeServingSize"
+                            className="form-control"
+                            placeholder="Recipe Serving Size"
+                            onChange={this.handleChange}
+                            value={this.state.RecipeServingSize}
+                        />
+                    </div>
+                    <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <input
+                            type="file"
+                            id="imageUpload"
+                            name="recipeImage"
+                            className="form-control"
+                            value={this.state.RecipeImage}
+                            onChange={this.fileOnChange}
+                        />
+                    </div>
                     <button
-                        className="btn btn-dark"
-                        onClick={(event) => this.onIngredientSubmit(event)}
-                    >
-                        Add Ingredient
-                    </button>
-                    <label htmlFor="RecipeInstructions">
-                        Recipe Instructions
-                    </label>
-                    <input
-                        type="text"
-                        name="RecipeInstructions"
-                        id="RecipeInstructions"
-                        onChange={this.handleInstructionChange}
-                        // value={this.state.RecipeInstructions}
-                    />
-                    <button
-                        className="btn btn-dark"
-                        onClick={(event) => this.onInstructionSubmit(event)}
-                    >
-                        Add Instructions
-                    </button>
-                    <label htmlFor="RecipeDifficulty">Recipe Difficulty</label>
-                    <input
-                        type="text"
-                        name="RecipeDifficulty"
-                        id="RecipeDifficulty"
-                        onChange={this.handleChange}
-                        value={this.state.RecipeDifficulty}
-                    />
-                    <label htmlFor="RecipeCookTime">Recipe Cook Time</label>
-                    <input
-                        type="text"
-                        name="RecipeCookTime"
-                        id="RecipeCookTime"
-                        onChange={this.handleChange}
-                        value={this.state.RecipeCookTime}
-                    />
-                    <label htmlFor="RecipeServingSize">
-                        Recipe Serving Size
-                    </label>
-                    <input
-                        type="text"
-                        name="RecipeServingSize"
-                        id="RecipeServingSize"
-                        onChange={this.handleChange}
-                        value={this.state.RecipeServingSize}
-                    />
-                    <input
-                        type="file"
-                        id="imageUpload"
-                        name="recipeImage"
-                        onChange={this.fileOnChange}
-                    />
-                    <button
-                        className="btn btn-primary"
+                        className="btn btn-primary mx-2"
                         onClick={() => {
+                            if (this.state.RecipeImage === null) {
+                                return alert("Please upload an image");
+                            }
                             let formData = new FormData();
 
                             formData.append(
@@ -230,13 +326,10 @@ export class NewRecipe extends Component<any, myState> {
                                 "RecipeName",
                                 this.state.RecipeName
                             );
-                            fetch(
-                                "https://recipe-guru.herokuapp.com/uploadFile",
-                                {
-                                    method: "POST",
-                                    body: formData,
-                                }
-                            );
+                            fetch(`${this.state.imgURL}/uploadFile`, {
+                                method: "POST",
+                                body: formData,
+                            });
                         }}
                     >
                         Submit

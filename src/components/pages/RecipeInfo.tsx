@@ -68,7 +68,7 @@ const RecipeInfo = (props: { data: any; img: string }) => {
                 <div className="row">
                     <div className="container col-md-6">
                         <img
-                            src={img + recipe.RecipeName + ".jpg"}
+                            src={`${img}/static/${recipe.RecipeName}.jpg`}
                             alt="recipe"
                             className="img-fluid d-block"
                             height="300"

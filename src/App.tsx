@@ -7,12 +7,13 @@ import RecipeInfo from "./components/pages/RecipeInfo";
 import "./App.css";
 
 function App() {
-    // const apiUrl = "http://localhost:8080/recipes";
-    const apiUrl = "https://recipe-guru.herokuapp.com/recipes";
+    const apiUrl = "http://localhost:8080/recipes";
+    // const apiUrl = "https://recipe-guru.herokuapp.com/recipes";
 
     const [recipes, setRecipes]: any = useState([]);
     const [recipeData, setRecipeData] = useState([]);
-    const imgURL = "https://recipe-guru.herokuapp.com/static/";
+    const imgURL = "http://localhost:8080";
+    // const imgURL = "https://recipe-guru.herokuapp.com/static/";
 
     function useRecipeData(r: []) {
         setRecipeData(r);
@@ -41,7 +42,10 @@ function App() {
                             />
                         }
                     />
-                    <Route path="/new-recipe" element={<NewRecipe />} />
+                    <Route
+                        path="/new-recipe"
+                        element={<NewRecipe api={apiUrl} img={imgURL} />}
+                    />
                     <Route
                         path="/view-recipe/:id"
                         element={<RecipeInfo data={recipeData} img={imgURL} />}
