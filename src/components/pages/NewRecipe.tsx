@@ -60,8 +60,6 @@ export class NewRecipe extends Component<any, myState> {
 
     handleInstructionChange = (event: any) => {
         this.instructions = event.target.value;
-
-        console.log(this.instructions);
     };
 
     onInstructionSubmit = (event: any) => {
@@ -71,8 +69,6 @@ export class NewRecipe extends Component<any, myState> {
         this.setState({
             RecipeInstructions: this.instructionArray,
         });
-
-        console.log(this.state.RecipeInstructions);
     };
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,8 +104,6 @@ export class NewRecipe extends Component<any, myState> {
             return alert("Please enter a recipe cook time");
         } else if (this.state.RecipeServingSize === "") {
             return alert("Please enter a recipe serving size");
-        } else if (this.state.RecipeImage === null) {
-            return alert("Please upload an image");
         }
 
         const {
@@ -140,7 +134,7 @@ export class NewRecipe extends Component<any, myState> {
             RecipeDifficulty: "",
             RecipeCookTime: "",
             RecipeServingSize: "",
-            RecipeImage: undefined,
+            RecipeImage: null,
         });
 
         fetch(this.state.apiURL, {
@@ -201,63 +195,7 @@ export class NewRecipe extends Component<any, myState> {
                             value={this.state.RecipeDescription}
                         />
                     </div>
-                    <div className="form-control col-md-6 m-auto my-1 border border-0">
-                        <label htmlFor="IngredientName" className="d-none">
-                            Recipe Ingredients
-                        </label>
-                        <div className="d-flex">
-                            <input
-                                type="text"
-                                name="IngredientName"
-                                id="IngredientName"
-                                className="form-control mx-1"
-                                placeholder="Ingredient Name"
-                                value={this.ingredientName}
-                                onChange={this.handleIngredientNameChange}
-                            />
-                            <label
-                                htmlFor="IngredientQuantity"
-                                className="d-none"
-                            >
-                                Recipe Quantity
-                            </label>
-                            <input
-                                type="text"
-                                name="IngredientQuantity"
-                                id="IngredientQuantity"
-                                className="form-control mx-1"
-                                placeholder="Ingredient Quantity"
-                                value={this.ingredientQuantity}
-                                onChange={this.handleIngredientQuantityChange}
-                            />
-                        </div>
-                        <button
-                            className="btn btn-dark m-1"
-                            onClick={(event) => this.onIngredientSubmit(event)}
-                        >
-                            Add Ingredient
-                        </button>
-                    </div>
-                    <div className="form-control col-md-6 m-auto my-1 border border-0">
-                        <label htmlFor="RecipeInstructions" className="d-none">
-                            Recipe Instructions
-                        </label>
-                        <input
-                            type="text"
-                            name="RecipeInstructions"
-                            id="RecipeInstructions"
-                            className="form-control"
-                            placeholder="Recipe Instructions"
-                            value={this.instructions}
-                            onChange={this.handleInstructionChange}
-                        />
-                        <button
-                            className="btn btn-dark m-1"
-                            onClick={(event) => this.onInstructionSubmit(event)}
-                        >
-                            Add Instructions
-                        </button>
-                    </div>
+
                     <div className="form-control col-md-6 m-auto my-1 border border-0">
                         <label htmlFor="RecipeDifficulty" className="d-none">
                             Recipe Difficulty
@@ -301,12 +239,75 @@ export class NewRecipe extends Component<any, myState> {
                         />
                     </div>
                     <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <label htmlFor="IngredientName" className="d-none">
+                            Recipe Ingredients
+                        </label>
+                        <p className="m-0">
+                            Please enter an ingredient and quantity and select
+                            "Add Ingredient"
+                        </p>
+                        <div className="d-flex">
+                            <input
+                                type="text"
+                                name="IngredientName"
+                                id="IngredientName"
+                                className="form-control mx-1"
+                                placeholder="Ingredient Name"
+                                // value={this.ingredientName}
+                                onChange={this.handleIngredientNameChange}
+                            />
+                            <label
+                                htmlFor="IngredientQuantity"
+                                className="d-none"
+                            >
+                                Recipe Quantity
+                            </label>
+                            <input
+                                type="text"
+                                name="IngredientQuantity"
+                                id="IngredientQuantity"
+                                className="form-control mx-1"
+                                placeholder="Ingredient Quantity"
+                                onChange={this.handleIngredientQuantityChange}
+                            />
+                        </div>
+                        <button
+                            className="btn btn-dark m-1"
+                            onClick={(event) => this.onIngredientSubmit(event)}
+                        >
+                            Add Ingredient
+                        </button>
+                    </div>
+                    <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <label htmlFor="RecipeInstructions" className="d-none">
+                            Recipe Instructions
+                        </label>
+                        <p className="m-0">
+                            Please enter an instruction below and click "Add
+                            instruction"
+                        </p>
+                        <input
+                            type="text"
+                            name="RecipeInstructions"
+                            id="RecipeInstructions"
+                            className="form-control"
+                            placeholder="Recipe Instructions"
+                            onChange={this.handleInstructionChange}
+                        />
+                        <button
+                            className="btn btn-dark m-1"
+                            onClick={(event) => this.onInstructionSubmit(event)}
+                        >
+                            Add Instructions
+                        </button>
+                    </div>
+                    <div className="form-control col-md-6 m-auto my-1 border border-0">
+                        <p className="my-0 ">Please upload an image</p>
                         <input
                             type="file"
                             id="imageUpload"
                             name="recipeImage"
                             className="form-control"
-                            value={this.state.RecipeImage}
                             onChange={this.fileOnChange}
                         />
                     </div>

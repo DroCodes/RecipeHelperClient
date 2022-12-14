@@ -33,11 +33,8 @@ const RecipeInfo = (props: { data: any; img: string }) => {
             <h3>Instructions</h3>
             <ol>
                 {recipe.RecipeInstructions.map((item: any, index: any) =>
-                    item.Instruction !== "" ? (
-                        <li key={index}>{item.Instruction}</li>
-                    ) : null
+                    item !== "" ? <li key={index}>{item}</li> : null
                 )}
-                {/* <li>{recipe.RecipeInstructions}</li> */}
             </ol>
         </div>
     );
@@ -64,7 +61,7 @@ const RecipeInfo = (props: { data: any; img: string }) => {
     return (
         <div className="container">
             <h1 className="text-center">Recipe Info</h1>
-            <div id="recipeHeading" className="row row-cols-2">
+            <div id="recipeHeading" className="row row-cols-sm-1 row-cols-md-2">
                 <div className="row">
                     <div className="container col-md-6">
                         <img
@@ -96,7 +93,7 @@ const RecipeInfo = (props: { data: any; img: string }) => {
                                 id="servingSize"
                                 onChange={onServingAdjustmentChange}
                             >
-                                <option>Serving Size</option>
+                                <option value="1">Serving Size</option>
                                 <option value="1">Regular</option>
                                 <option value=".5">Half</option>
                                 <option value="2">double</option>
@@ -104,11 +101,7 @@ const RecipeInfo = (props: { data: any; img: string }) => {
                             <div>
                                 <p id="prepTime">
                                     Cook Time-
-                                    <span>
-                                        {recipe.RecipeCookTime *
-                                            servingAdjustment}{" "}
-                                        Minutes
-                                    </span>
+                                    <span>{recipe.RecipeCookTime}</span>
                                 </p>
                             </div>
                             <div>

@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Search from "../Search";
 
 const Home = (props: { recipe: []; getRecipeData: any; imgURL: string }) => {
     const { recipe, getRecipeData, imgURL } = props;
+
     useEffect(() => {
         localStorage.removeItem("recipes");
         localStorage.removeItem("img");
@@ -12,7 +13,6 @@ const Home = (props: { recipe: []; getRecipeData: any; imgURL: string }) => {
     return (
         <div>
             <h1 className="text-center">Recipe's</h1>
-            <Search />
             <div id="recipe-list">
                 {/* map function that maps out recipe */}
                 {recipe.map((item: any, index: number) => (
