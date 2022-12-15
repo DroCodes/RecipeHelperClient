@@ -13,7 +13,7 @@ function App() {
     const [recipes, setRecipes]: any = useState([]);
     const [recipeData, setRecipeData] = useState([]);
     // const imgURL = "http://localhost:8080";
-    const imgURL = "https://recipe-guru.herokuapp.com/static/";
+    const imgURL = "https://recipe-guru.herokuapp.com/static";
 
     function useRecipeData(r: []) {
         setRecipeData(r);
