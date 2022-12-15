@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Search from "../Search";
 
 const Home = (props: { recipe: []; getRecipeData: any; imgURL: string }) => {
     const { recipe, getRecipeData, imgURL } = props;
